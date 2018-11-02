@@ -2,9 +2,22 @@ import barcode
 from barcode.writer import ImageWriter
 codeClass = barcode.get_barcode_class('code128')
 from sys import exit
-import random, string, os, sys, shutil, datetime
+import random, string, os, sys, shutil, datetime, pathlib
 
-os.path.dirname(os.path.abspath(sys.argv[0]))
+
+pathname = os.path.dirname(sys.argv[0])
+fullPath = os.path.abspath(pathname)
+pathGen= fullPath+"\Generados"
+
+if not os.path.exists(pathGen):
+    try:
+        os.mkdir(pathGen)
+    except OSError:
+        print ("Falla en la creacion del directorio 'Generados', intente crearlo manualmente")
+        ex = input()
+        exit()
+    else:
+        print ("Se ha creado el directorio 'Generados', en el se guardaran los codigos creados ")
 
 
 print("Ingrese 1 Para generar codigos aleatoriamente, 2 para generarlos a partir de un archivo de texto .txt ")
@@ -50,10 +63,8 @@ if (n==1):
 
 
 if (n==2):
-    if hasattr(sys, "_MEIPASS"):
-            datadir = os.path.join(sys._MEIPASS, 'archivo.txt')
-    else:
-        datadir = 'archivo.txt'
+
+    datadir = 'archivo.txt'
     try:
         with open(datadir,"r") as inputFile:
              data = inputFile.read().splitlines()
